@@ -1,23 +1,13 @@
 ### 연습문제01. 이항분포
 
-setwd('D:/Heechul/R_Statistics/Practice/연습문제01')
-# d = 어떤 값일때 확률, p = 누적확률, q = 확률 -> x, r = 난수 생성
+setwd('D:/Heechul/R_Statistics/Practice')
+library(prob)
 
-## 1. 
-
-# 1-1.
-
-
-# 1-2.
-
-
-# 1-3.
-
-
-
-# 1-4. 
-
-
+## 1. 베르누이 시행은 2번, 4번
+# 1-1. 
+# 1-2. 전화가 왔을 때, 전화를 한 사람이 여자인지를 측적, 성공확률 0.5
+# 1-3. 
+# 1-4. 주사위를 한 번 던졌을때 숫자 2가 나오는지를 체크, 2 나올 확률 1/6
 
 ## 2. 패널티킥 성공확률 4/5, 10번 시도해서 7골 성공 확률? 
 # 성공확률 = 4/5, 실행 횟수 = 10
@@ -27,7 +17,8 @@ x <- 1:n
 
 # 7번 성공할때 확률
 dbinom(7, size = n, prob = p)
-
+px <- dbinom(x, size = n, prob = p)
+plot(x, px, type='s', xlab='성공횟수', ylab = '확률(P[X=x])', col='red')
 
 ## 3. 불량률 5%, 20개 조사해서 불량이 2개 이하 나올 확률?
 # 불량률 5%, 실행 횟수 = 20
@@ -39,18 +30,20 @@ x <- 1:n
 dbinom(0, size = n, prob = p) + dbinom(1, size = n, prob = p) + dbinom(2, size = n, prob = p)
 pbinom(2, size = n, prob = p)
 
+
 ## 4. 치료율 20%, 20명을 치료했을때 2명 이상이 회복할 확률?
 n <- 20
 p <- 0.2
 x <- 1:n
 
-# 2명~20명이 치료될 확률은 20명이 치료될 확률 - 0명,1명이 치료될 확률
-pbinom(20, size = n, prob = p) - pbinom(1, size = n, prob = p)
+# 2명~20명이 치료될 확률은 20명이 치료될 확률 1 - 0명,1명이 치료될 확률
+1 - pbinom(1, size = n, prob = p)
 
 
 ## 5. 주사위 두 개를 던졌을때, 눈금의 합이 6이 될 확률?
 # 합이 6 나올 확률 5/36, 
-5/36
+
+p <- 5/36
 
 
 
@@ -61,13 +54,6 @@ pbinom(20, size = n, prob = p) - pbinom(1, size = n, prob = p)
 options(digits = 3)
 mu <- 800
 sigma <- 40
-ll <- mu - 3*sigma
-ul <- mu + 3*sigma
-
-x <- seq(ll, ul, by=0.01)
-x
-nd <- dnorm(x, mean = mu, sd = sigma)
-plot(x, nd, type='l')
 
 pnorm(750, mean = mu, sd = sigma)
 
@@ -76,14 +62,12 @@ pnorm(750, mean = mu, sd = sigma)
 # 2-1. 20년 이상 근무한 종업원의 비율
 mu <- 11
 sigma <- 4
-pnorm(mu, mean = mu, sd = sigma)
 
 # 19년 이하 근무한 종업원 확률을 1에서 빼주면 나머지 20년 이상 근무한 종업원 확률
 1- pnorm(19, mean = mu, sd = sigma)
 
 
 # 2-2. 근무연수가 가장 오래된 10%의 종업원은 몇 년 이상 근무?
-
 # 전체에서 90%의 종업원 
 qnorm(0.9, mean = mu, sd = sigma)
 
@@ -101,4 +85,9 @@ pnorm(90, mean = mu, sd = sigma) - pnorm(80, mean = mu, sd = sigma)
 # H(0) + H(2) ?
 mu <- 1.5
 sigma <- 2
+
+# P(0 <= X <= 1) + P(2 <= X <= 3)
+# P(0 <= X <= 1) 값은 1까지의 값을 구하고 0의 값을 빼준값
+# 정규분포는 좌우 대칭이기 때문에 곱하기 2
+(pnorm(1, mean = mu, sd = sigma) - pnorm(0, mean = mu, sd = sigma))*2 
 
