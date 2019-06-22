@@ -2,79 +2,49 @@
 
 setwd('D:/Heechul/R_Statistics/Practice')
 library(prob)
+library(extrafont)
+windowsFonts(dohyeon=windowsFont("BM DoHyeon"))
+windowsFonts(jalnan=windowsFont("Jalnan"))
+windowsFonts(binggrae=windowsFont("Binggrae Taom"))
+windowsFonts(nbg=windowsFont("나눔바른고딕"))
 
 ## χ2 분포 그래프 그리기
+# 평균 : k, 분산 : 2k
+set.seed(9)
+n <- 1000
+
+chisq.2.mean <- rep(NA, n)
+chisq.4.mean <- rep(NA, n)
+chisq.8.mean <- rep(NA, n)
+chisq.16.mean <- rep(NA, n)
+
+rchisq(2, df=1)
+
+for(i in 1:n) {
+   chisq.2.mean[i] <- rchisq(2, df=1)
+   chisq.4.mean[i] <- rchisq(4, df=1)
+   chisq.8.mean[i] <- rchisq(8, df=1)
+   chisq.16.mean[i] <- rchisq(16, df=1)
+}
+
 options(digits = 4)
-
-n <- 1000
-x <- seq(0, 30, length.out = n)
-k <- 1
-y <- dchisq(x,k)
-y4 <- dchisq(x,4)
-y8 <- dchisq(x,8)
-y16 <- dchisq(x,16)
-
-par(mfrow=c(2,2))
-plot(x, y, type='l', col = 'red', lty=1, lwd=2, xlim=c(0,30), ylim=c(0,0.2),
-     main ='자유도 : 1', xlab= '', ylab ='χ2 분포')
-
-plot(x, y4, type='l', col = 'black', lty=1, lwd=2, xlim=c(0,30), ylim=c(0,0.2),
-     main ='자유도 : 4', xlab= '', ylab ='χ2 분포')
- 
-plot(x, y8, type='l', col = 'green', lty=1, lwd=2, xlim=c(0,30), ylim=c(0,0.2),
-     main ='자유도 : 8', xlab= '', ylab ='χ2 분포')
-
-plot(x, y16, type='l', col = 'blue', lty=1, lwd=2, xlim=c(0,30), ylim=c(0,0.2),
-     main ='자유도 : 16', xlab= '', ylab ='χ2 분포')
-
-
-
-## t 분포 그래프 그리기
-
-n <- 1000
-t <- seq(-5, 5, length.out = n)
-df <- 1
-y <- dt(t, df)
-y2 <- dt(t, 2)
-y4 <- dt(t, 4)
-y8 <- dt(t, 8)
-y32 <- dt(t, 32)
-
+c(mean(chisq.2.mean), sd(chisq.2.mean))
+c(mean(chisq.4.mean), sd(chisq.4.mean))
+c(mean(chisq.8.mean), sd(chisq.8.mean))
+c(mean(chisq.16.mean), sd(chisq.16.mean))
 
 
 par(mfrow=c(2,2))
-plot(t, y, type='l', col = 'red', lty=1, lwd=2, xlim=c(-5, 5), ylim=c(0,0.4),
-     main ='df : 1', xlab= '확률변수 Z', ylab ='')
+hist(chisq.2.mean, probability = T,
+     main='Chisq',
+     col = 'red')
+chisq_x <- seq(min(chisq.2.mean), max(chisq.2.mean), length.out = 1000)
+chisq_y <- dnorm(x=chisq_x, mean = 1, sqrt(2/2))
+lines(chisq_x, chisq_y, lty=2, lwd=2, col='black')
 
-plot(t, y2, type='l', col = 'black', lty=1, lwd=2, xlim=c(-5, 5), ylim=c(0,0.4),
-     main ='df : 2', xlab= '확률변수 Z', ylab ='')
-
-plot(t, y8, type='l', col = 'green', lty=1, lwd=2, xlim=c(-5, 5), ylim=c(0,0.4),
-     main ='df : 8', xlab= '확률변수 Z', ylab ='')
-
-plot(t, y32, type='l', col = 'blue', lty=1, lwd=2, xlim=c(-5, 5), ylim=c(0,0.4),
-     main ='df : 32', xlab= '확률변수 Z', ylab ='')
-
-
-
-## f 분포 그래프 그리기
-n <- 1000
-x <- seq(0, 5, length.out = n)
-y1 <- df(x, 5, 50)
-y2 <- df(x, 5, 500)
-y3 <- df(x, 50, 50)
-y4 <- df(x, 50, 500)
-
-
-par(mfrow=c(2,2))
-plot(x, y1, type='l', col = 'red', lty=1, lwd=2, xlim=c(0,2), ylim=c(0,2),
-     main ='df : 5, 50', xlab= '확률변수 Z', ylab ='')
-
-plot(x, y2, type='l', col = 'black', lty=1, lwd=2, xlim=c(0,2), ylim=c(0,2),
-     main ='df : 5,500', xlab= '확률변수 Z', ylab ='')
-      
-plot(x, y3, type='l', col = 'green', lty=1, lwd=2, xlim=c(0,2), ylim=c(0,2),
-     main ='df : 50, 50', xlab= '확률변수 Z', ylab ='')
-
-plot(x, y4, type='l', col = 'blue', lty=1, lwd=2, xlim=c(0,2), ylim=c(0,2.),
-     main ='df : 50, 500', xlab= '확률변수 Z', ylab ='')
+hist(chisq.16.mean, probability = T,
+     main='Chisq',
+     col = 'red')
+chisq_x <- seq(min(chisq.4.mean), max(chisq.4.mean), length.out = 1000)
+chisq_y <- dnorm(x=chisq_x, mean = 1, sqrt(2/2))
+lines(chisq_x, chisq_y, lty=2, lwd=2, col='black')
