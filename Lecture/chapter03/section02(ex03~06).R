@@ -10,8 +10,13 @@ x <- 0:n
 
 # d = 어떤 값일때 확률, p = 누적확률, q = 확률 -> x, r = 난수 생성
 # dbinom() 어떤 값일때 확률
+dbinom(0, size = n, prob = p)
+dbinom(1, size = n, prob = p)
 dbinom(2, size = n, prob = p)     # x가 2일 때 확률
+dbinom(3, size = n, prob = p)
 dbinom(4, size = n, prob = p)     # x가 4일 때 확률
+dbinom(5, size = n, prob = p)
+dbinom(6, size = n, prob = p)
 px <- dbinom(x, size = n, prob = p)
 px    # 1일때, 2일때, 3일때, 4일때, 5일때, 6일때
 
@@ -20,6 +25,7 @@ plot(x, px, type= 'h', xlab= '성공횟수(x)', ylab='확률(p[X=x]', main='B(6,
      col = 'red', lwd=10)
 
 # pbinom() 누적확률
+dbinom(0, size = n, prob = p) + dbinom(1, size = n, prob = p) + dbinom(2, size = n, prob = p)
 pbinom(2, size = n, prob = p)     # 0, 1, 2가 일어날 확률을 더한 값
 pbinom(4, size = n, prob = p)     # 0, 1, 2, 3, 4가 일어날 확률을 더한 값
 pbinom(6, size = n, prob = p)     # 0, 1, 2, 3, 4, 5, 6가 일어날 확률을 더한 값
@@ -73,6 +79,7 @@ pnorm(158, mean = mu, sd= sigma)
 pnorm(180, mean = mu, sd= sigma) - pnorm(160, mean = mu, sd= sigma)
 
 # 면적이 0.25가 되는 때의 x 값이 166이다. 
+qnorm(0.0228, mean = mu, sd= sigma)
 qnorm(0.25, mean = mu, sd= sigma)    # 1분위수
 qnorm(0.75, mean = mu, sd= sigma)    # 3분위수
 qnorm(0.5, mean = mu, sd= sigma)
