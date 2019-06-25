@@ -38,7 +38,7 @@ c(mean(chisq.16.mean), sd(chisq.16.mean))
 c(mean(chisq.32.mean), sd(chisq.32.mean))
 
 
-par(mar(4,4,4,4), oma(0,0,4,0))
+par(mfrow=c(2,2))
 
 hist(chisq.4.mean, probability = T,
      main='표본크기=4',
@@ -77,3 +77,43 @@ mtext("표본 변화에 따른 χ2분포, 자유도=10", side = 3, line=1, outer
 
 
 ## 2. t-분포. 표본수에 따른 정규분포 그래프 변화
+set.seed(9)
+n <- 1000
+
+t.1.mean <- rep(NA, n)
+t.2.mean <- rep(NA, n)
+t.4.mean <- rep(NA, n)
+t.8.mean <- rep(NA, n)
+t.16.mean <- rep(NA, n)
+t.32.mean <- rep(NA, n)
+t.64.mean <- rep(NA, n)
+t.128.mean <- rep(NA, n)
+t.256.mean <- rep(NA, n)
+t.512.mean <- rep(NA, n)
+
+
+for(i in 1:n) {
+   t.1.mean[i] <- rt(1,df=10)
+   t.2.mean[i] <- rt(2,df=10)
+   t.4.mean[i] <- rt(4,df=10)
+   t.8.mean[i] <- rt(8,df=10)
+   t.16.mean[i] <- rt(16,df=10)
+   t.32.mean[i] <- rt(32,df=10)
+   t.64.mean[i] <- rt(64,df=10)
+   t.128.mean[i] <- rt(128,df=10)
+   t.256.mean[i] <- rt(256,df=10)
+   t.512.mean[i] <- rt(512,df=10)
+}
+
+options(digits = 4)
+c(mean(t.1.mean), sd(t.1.mean))
+c(mean(t.2.mean), sd(t.2.mean))
+c(mean(t.4.mean), sd(t.4.mean))
+c(mean(t.8.mean), sd(t.8.mean))
+c(mean(t.16.mean), sd(t.16.mean))
+c(mean(t.32.mean), sd(t.32.mean))
+c(mean(t.64.mean), sd(t.64.mean))
+c(mean(t.128.mean), sd(t.128.mean))
+c(mean(t.256.mean), sd(t.256.mean))
+c(mean(t.512.mean), sd(t.512.mean))
+

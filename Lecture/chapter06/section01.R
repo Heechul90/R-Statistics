@@ -14,6 +14,7 @@ height <- height.p[sample(length(height.p), 15)]
 height
 
 
+options(digits = 4)
 mean(height)
+sd(height)
 t.test(height)
-pt(0.727, 14)
