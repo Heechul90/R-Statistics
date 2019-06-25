@@ -3,6 +3,7 @@
 setwd('D:/Heechul/R_Statistics/Lecture/chapter05')
 
 ## 예제 5-1. 유효성
+par(mfrow = c(1,1))
 x <- seq(-3, 3, by = 0.2)
 y <- dnorm(x)
 y.1 <- dnorm(x, sd=sqrt(1/3))

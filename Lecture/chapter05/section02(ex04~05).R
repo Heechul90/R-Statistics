@@ -9,6 +9,7 @@ x <- 1:100
 y <- seq(-3, 3, by = 0.01)
 
 smps <- matrix(rnorm(n * length(x)), ncol = n)
+smps
 
 xbar <- apply(smps, 1, mean)
 se <- 1 / sqrt(10)
