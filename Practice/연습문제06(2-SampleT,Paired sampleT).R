@@ -1,8 +1,14 @@
 setwd('D:/Heechul/R_Statistics/Practice')
 
+# 필요 패키지 
+library(MASS) 
 library(prob)
 library(dplyr)
-library(MASS)
+
+# MASS와 dplyr 같이 사용하면 충돌이 일어남(dplyr에 select이용 지정)
+# 아니면 MASS먼저 로딩하고 그 다음 dplyr 로딩하면 됨
+select <- dplyr::select 
+
 
 ### 연습문제06. 2-Sample T 테스트
 ## 문제 02. mtcars 데이터셋에서 자동차 기어 종류(am: 오토/수동)에 따른 mpg의 차이가 
