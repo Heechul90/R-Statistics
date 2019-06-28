@@ -1,3 +1,8 @@
+### Logistic Regression
+
+setwd('D:/Heechul/R_Statistics/Lecture/chapter09(상관과 회귀)')
+
+
 data <- read.csv('http://stats.idre.ucla.edu/stat/data/binary.csv')
 data
 str(data)
@@ -16,5 +21,8 @@ model <- glm(admit ~ gre + gpa + rank, data = data,
 model
 summary(model)
 
-model2 <- glm(admit ~ gre + gpa + rank, data = data,
-              family = 'binomial')
+model2 <- glm(admit ~ gpa + rank, data =data, family = "binomial")
+summary(model2)
+
+
+AIC(model, model2)

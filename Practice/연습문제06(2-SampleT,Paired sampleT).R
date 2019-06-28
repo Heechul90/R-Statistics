@@ -3,6 +3,8 @@ setwd('D:/Heechul/R_Statistics/Practice')
 # 필요 패키지 
 library(prob)
 library(dplyr)
+library(ggplot2)
+library(MASS)
 
 # MASS와 dplyr 같이 사용하면 충돌이 일어남(dplyr에 select이용 지정)
 # 아니면 MASS먼저 로딩하고 그 다음 dplyr 로딩하면 됨
@@ -46,7 +48,7 @@ var.test(mtcars$mpg ~ mtcars$am)
 # 2. 모평균의 차이 검정
 # 영가설 : am:0의 mpg 평균과 am:1의 mpg 평균의 동일하다. (오토평균-수동평균=0)
 # 대안가설 : am:0의 mpg 평균과 am:1의 mpg 평균의 동일하지 않다. (오토평균-수동평균<0)
-t.test(mtcars$mpg ~ mtcars$am, mu=0, alternative='less', var.equal=T)
+t.test(mtcars$mpg ~ mtcars$am, mu=0, alternative='two.sided', var.equal=T)
 
 # 결론 : 자동차 기어 종류(am: 오토/수동)에 따른 mpg의 차이가 통계적으로 유의한지
 #        알아보기위해 am:0 19개, am:1 13개를 측정한 결과
@@ -91,6 +93,21 @@ var.test(Cars93$Price ~ Cars93$Origin)
 #        유의확률(p-value = 0.01387)이 유의수준 0.05보다 작아
 #        분산이 서로 동일하다는 가정을 만족하지 않습니다.
 
+# 2. 모평균의 차이 검정
+# 영가설 : USA 집단과 non-USA 집단의 평균은 서로 동일하다.(mu1 - mu2 = 0)
+# 영가설 : USA 집단과 non-USA 집단의 평균은 서로 동일하지 않다.(mu1 - mu2 != 0)
+t.test(Cars93$Price ~ Cars93$Origin, mu=0, alternative='two.sided', var.equal= F)
+
+# 결론 : USA 집단과 non-USA 집단에 따라 가격에 차이가 있는지 알아보기 위해
+#        집단에서 각각 48. 45 표본을 조사한 결과
+#        USA집단의 가격 평균과 표준편차는 18.6+-7.82,
+#        non-USA 집단의 가격 평균과 표준편차는 20.5+-11.3로 나타났습니다.
+#        또한 유의수준 0.05에서 가설검정하면 검정통계량 -5.974255(p-value = 0.3428)로
+#        나타나 'USA 집단과 non-USA 집단의 평균은 서로 동일하다'는 통계적으로
+#        유의한 결론을 내릴 수 있습니다.
+#        즉 USA 집단과 non-USA 집단의 가격은 차이가 없는것으로 판단됩니다.
+
+
 ## 문제 03. mpg 데이터셋에서 다음을 검정해 보시오.
 ## 문제 03-1. subcompact 자동차와 midsize 자동차의 고속도로 연비
 mpg
@@ -117,6 +134,7 @@ mpg3_sd <- mpg3 %>%
   summarise(mpg3_sd = sd(hwy))
 mpg3_sd
 View(mpg3)
+
 ## 1. 분산의 동일성 검정
 # 영가설 : subcompact 자동차의 분산과 midsize 자도창의 분산은 서로 동일하다. (V1 / V2 = 1)
 # 대안가설 : subcompact 자동차의 분산과 midsize 자도창의 분산은 서로 다르다. (V1 / V2 != 1)
@@ -127,18 +145,17 @@ var.test(mpg3$hwy ~ mpg3$class)
 #        두 자동차의 고속도로 연비 분산은 동일하다는 가정을 만족합니다.
 
 ## 2. 평균의 동일성 검정
-# 영가설 : subcompact 자동차의 hwy 평균이 midsize 자동차의 hwy 평균보다 높다.(mu1 - mu2 >= 0)
-# 대안가설 : subcompact 자동차의 hwy 평균과 midsize 자동차의 hwy 평균은 다르다.(mu1 - mu2 < 0)
-t.test(mpg3$hwy ~ mpg3$class, mu=0, alternative='less', var.equal=T)
+# 영가설 : subcompact 자동차의 hwy와  midsize 자동차의 hwy이 차이가 없다. (mu1 - mu2 = 0)
+# 대안가설 : subcompact 자동차의 hwy와  midsize 자동차의 hwy이 차이가 있다.(mu1 - mu2 != 0)
+t.test(mpg3$hwy ~ mpg3$class, mu=0, alternative='two.sided', var.equal=T)
 
 # 결론 : subcompact 자동자의 hwy 평균이 midsize 자동차의 hwy보다 큰지를 알아보기 위해
 #        subcompact 35대, midsize 41대의 hwy를 측정한 결과 각각 평균과 표준편차는
 #        28.14286+-5.38, 27.29268+-2.14 로 나타났습니다.
-#        이를 유의수준 0.5에서 가설점정하면 검정통계량 -0.93116(p-value = 0.1774)로 나타나
-#        subcompact 자동차의 hwy 평균이 midsize 자동차의 hwy 평균보다 높다는 결론을 
-#        내릴수 있습니다.
-#        따라서 subcompact 자동차의 hwy 평균이 midsize 자동차의 hwy 평균보다
-#        높다고 판단됩니다.
+#        이를 유의수준 0.5에서 가설점정하면 검정통계량 -0.93116(p-value = 0.3548)로 나타나
+#        'subcompact 자동차의 hwy와  midsize 자동차의 hwy이 차이가 없다'는 
+#        결론을 내릴수 있습니다.
+#        따라서 subcompact 자동차의 hwy와 midsize 자동차의 hwy는 차이가 없습니다.
 
 
 ## 문제 03-2. 일반 휘발유(r)와 고급 휘발유(p)의 도시 연비
@@ -176,6 +193,20 @@ var.test(mpg3.2$cty ~ mpg3.2$fl)
 #        유의확율(p-value = 0.04282)이 유의수준 0.05보다 적게 나와 
 #        분산이 동일하다는 가정을 유의한 결론을 내릴 수 없습니다.
 #        즉 일반휘발유와 고급휘발유의 도시연비 분산은 같지 않은것으로 판단됩니다.
+
+# 2. 평균의 동일성 검정
+# 영가설 : 일반 휘발유와 고급 휘발유의 cty는 차이가 없다 (mu1 - mu2 = 0)
+# 대안가설 : 일반 휘발유와 고급 휘발유의 cty는 차이가 있다 (mu1 - mu2 != 0)
+t.test(mpg3.2$cty ~ mpg3.2$fl, mu=0, alternative='two.sided', var.equal=F)
+
+# 결론 : 일반 휘발유와 고급 휘발유의 cty는 차이가 있는지 알아보기 위해
+#        일반 휘발유와 고급휘발유를 각각 168, 52 표본을 측정한 결과
+#        일반 휘발유의 cty 평균과 표준편차는 16.7+-3.89
+#        고급 휘발유의 cty 평균과 표준편차는 17.4+-3.04 로 나타났습니다.
+#        또한 유의수준 0.05에서 가설검정을 하면 검정통계량 1.2118(p-value = 0.2283)
+#        로 나타나 '일반 휘발유와 고급 휘발유의 cty는 차이가 없다'는
+#        통계적으로 유의한 결론을 내릴수 있습니다.
+#        즉 일반 휘발유와 고급 휘발유의 cty는 차이가 없다고 판단됩니다.
 
 
 ## 문제 03-3. subcompact 자동차의 전륜구동(f)이냐 후륜구동(r)이냐에 따른 도시 연비
@@ -217,6 +248,19 @@ var.test(mpg3.3$cty ~ mpg3.3$drv)
 #        즉 전륜구동의 도시연비 분산과 후륜구동의 도시연비 분산이 
 #        같지 않다고 판단됩니다.
 
+# 2. 평균 동일성 검정
+# 영가설 : 전륜구동과 후륜구동의 cty 차이가 없다 (mu1 - mu2 = 0)
+# 대안가설 : 전륜구동과 후륜구동의 cty 차이가 있다 (mu1 - mu2 != 0)
+t.test(mpg3.3$cty ~ mpg3.3$drv, mu=0, alternative='two.sided', var.equal=F)
+
+# 결론 : 전륜구동, 후륜구동 22, 9 표본 추출하여 측정한 결과
+#        전륜구동의 평균과 표준편차 22.36364 +-4.52
+#        후륜구동의 평균과 표준편차 15.88889+-1.45 로 측정
+#        유의수준 0.05에서 가설검정하면
+#        검정통계량 6.003(p-value = 1.759e-06)로 나타나
+#        영가설을 채택합니다.
+#        따라서 전륜구동과 후륜구동의 cty 차이가 없습니다.
+
 
 ### 연습문제07. Paired sample T 테스트
 ## 문제 01
@@ -226,8 +270,8 @@ ex7.1 <- data.frame('placebo' =
                       c(50.1, 51.5, 45.9, 53.1, 51.8, 50.3, 52.0, 49.9, 52.5, 53.0))
 ex7.1
 
-# 영가설 : 새로운 당뇨병 치료제는 효과가 없다. (mu1-mu2 > 0, mu1-mu2 = 0)
-# 대안가설 : 새로운 당뇨병 치료제는 효과가 있다. (mu1-mu2 < 0)
+# 영가설 : 새로운 당뇨병 치료제는 효과가 없다. (mu1-mu2 < 0, mu1-mu2 = 0)
+# 대안가설 : 새로운 당뇨병 치료제는 할당량을 줄여준다. (mu1 - mu2 > 0)
 # 직접 구해보기
 n <- length(ex7.1$placebo - ex7.1$newmedicine)
 n
@@ -239,15 +283,15 @@ t <- m / (s/sqrt(n))
 t
 
 # R로 구해보기
-t.test(ex7.1$placebo, ex7.1$newmedicine, paired = T, alternative = 'less')
+t.test(ex7.1$placebo, ex7.1$newmedicine, paired = T, alternative = 'greater')
 
 # 결론 : 새로운 당뇨병 치료제가 치료에 지대한 영향을 주는 외부요인을 통제하기 위해 
 #       10명의 당뇨병 환자를 선별하여 1달 동안 placebo 투여한 혈당 수치와
 #       신약 newmedicine을 투여한 혈당 수치를 비교한 결과 평균 혈당 수치 0.64 만큼
 #       감소하였고 표준편차는 +-0.5699903로 나타났습니다.
-#       또한 유의수준 0.05에서 통계검정량은 3.5507(p-value = 0.9969)로 나타나
-#       '새로운 당뇨병 치료제는 효과가 없다'는 통계적으로 유의한 결론을 얻을 수 있습니다.
-#       즉 새로운 당뇨병 치료제는 효과가 없다고 판단됩니다.
+#       또한 유의수준 0.05에서 통계검정량은 3.5507(p-value = 0.003105)로 나타나
+#       영가설을 기각하고 대안가설을 채택합니다.
+#       즉 새로운 당뇨병 치료제는 혈당수치를 줄여줍니다.
 
 
 ## 문제 2.
@@ -257,8 +301,8 @@ ex7.2 <- data.frame('A' =
                      c(14.0, 8.8, 11.2, 14.2, 11.8, 6.4, 9.8, 11.3, 9.3, 13.6))
 ex7.2
 
-# 영가설 : A 밑창과 B 밑창의 원재료가 닳는 정도의 차이가 없다 (muA = muB)
-# 대안가설 : A 밑창이 B 밑창의 원래료가 닳는 정도가 크다 (muA - muB > 0)
+# 영가설 : A 밑창과 B 밑창의 원재료가 닳는 정도의 차이가 없다 (muA - muB = 0)
+# 대안가설 : A 밑창과 B 밑창의 원재료가 닳는 정도의 차이가 있다 (muA - muB != 0)
 # 직접 검정 통계량 구해보기
 n <- length(ex7.2$A - ex7.2$B)
 n
@@ -270,15 +314,14 @@ t <- m / (s/sqrt(n))
 t
 
 # R로 구하기
-t.test(ex7.2$A, ex7.2$B, paired = T, alternative = )
+t.test(ex7.2$A, ex7.2$B, paired = T, alternative = 'two.sided')
 
 # 결론 : A 밑창과 B 밑창의 원재료가 닳는 정도의 차이를 검정하기 위해 10명의 소년을 대상으로
 #        왼쪽엔 A 다른쪽에 B를 신기고 일정 기간이 지난후에 신발을 수거하여 밑창의 닳은 정도를
 #        비교한 결과 B가 평균 0.41 더 높았으며, 표준편차는 +-0.3871549로 나타났다.
 #        또한 유의수준 0.05에서 검정통계량은 -3.3489(p-value = 0.008539)로 나타나
-#        'A 밑창이 B 밑창의 원재료가 닳는 정도가 크다' 는 통계적으로 유의한 결론을
-#        얻을수 있습니다.
-#        즉, A 밑창이 B 밑창의 원래료가 닳는 정도가 크다고 판단됩니다.
+#        영가설을 기각하고 대안가설을 채택합니다.
+#        즉 A 밑창과 B 밑창의 원재료가 닳는 정도의 차이가 있다고 판단됩니다.
 
 
 ### 연습문제10. 일원 분산분석(One way ANOVA)

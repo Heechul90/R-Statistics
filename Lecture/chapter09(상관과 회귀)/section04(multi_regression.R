@@ -1,4 +1,6 @@
-## 다중회귀분석
+### multi_regression(다중회귀분석)
+
+setwd('D:/Heechul/R_Statistics/Lecture/chapter09(상관과 회귀)')
 
 state.x77
 head(state.x77)
