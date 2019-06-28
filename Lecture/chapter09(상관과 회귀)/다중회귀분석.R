@@ -32,5 +32,15 @@ step(fit3, direction = 'forward',
      scope = ~Population + Illiteracy + Income + Frost)
 step(fit3, direction = 'forward', scope = list(upper = fit1, lower = fit3))
 
+
+# 모든 가능한 조합을 다 시도
 install.packages('leaps')
 library(leaps)
+subsets <- regsubsets(Murder ~., data=states,
+                      method = 'seqrep', nbest = 4)
+subsets <- regsubsets(Murder~., data = states,
+                      method = 'exhaustive', nbest = 1)
+
+summary(subsets)
+par(mfrow = c(1,1))
+plot(subsets)
