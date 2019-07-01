@@ -1,6 +1,6 @@
 setwd('D:/Heechul/R_Statistics/Practice')
 
-install.packages('prob')
+
 library(prob)
 library(dplyr)
 
