@@ -13,6 +13,6 @@ R 통계 분석에 대한 강의
 2019.05~2019.11
 
 
-* <a href="https://dojang.io/course/view.php?id=7" target="_blank">파이썬 코딩 도장: 따라하기, 연습하기, 심사하기로 배우는 파이썬 프로그래밍</a>
+* <a href="http://www.hanbit.co.kr/store/books/look.php?p_code=B7014039221" target="_blank">R로 쉽게 이해하는 데이터 분석의 핵심 기법, 핵심만 보더라도 제데로!</a>
 
 ![](https://www.hanbit.co.kr/data/books/B7014039221_l.jpg)
